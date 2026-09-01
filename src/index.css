@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  /* Fondos */
+  --color-bg:        #FFFFFF;
+  --color-surface:   #FAFAFA;
+  --color-surface2:  #F4F4F5;
+  --color-surface3:  #E4E4E7;
+
+  /* Bordes */
+  --color-border:    #E4E4E7;
+  --color-borderdim: #F0F0F1;
+
+  /* Texto */
+  --color-text:      #09090B;
+  --color-text2:     #52525B;
+  --color-muted:     #A1A1AA;
+  --color-dimmed:    #D4D4D8;
+
+  /* Acentos */
+  --color-accent:    #18181B;
+  --color-danger:    #EF4444;
+  --color-dangerdim: #FEF2F2;
+  --color-success:   #22C55E;
+
+  /* Tipografías */
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', 'Courier New', monospace;
+
+  /* Compat — nombres legacy que Landing/Login/NotFound todavía usan
+     (cyan/red/green de la paleta Supabase vieja). Migrar cuando se
+     actualicen esas páginas al estilo Vercel. */
+  --color-cyan:  var(--color-accent);
+  --color-red:   var(--color-danger);
+  --color-green: var(--color-success);
+
+  /* Semántica shadcn/ui — consumida por src/components/ui/*.tsx */
+  --color-background:           var(--color-bg);
+  --color-foreground:           var(--color-text);
+  --color-card:                 var(--color-surface);
+  --color-card-foreground:      var(--color-text);
+  --color-popover:              var(--color-bg);
+  --color-popover-foreground:   var(--color-text);
+  --color-primary:              var(--color-accent);
+  --color-primary-foreground:   var(--color-bg);
+  --color-secondary:            var(--color-surface2);
+  --color-secondary-foreground: var(--color-text);
+  --color-muted-foreground:     var(--color-text2);
+  --color-accent-foreground:    var(--color-text);
+  --color-destructive:          var(--color-danger);
+  --color-input:                var(--color-border);
+  --color-ring:                 var(--color-accent);
+}
+
+/* Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: #FFFFFF;
+  color: #09090B;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body { min-height: 100dvh; }
+
+/* Scrollbar minimal */
+::-webkit-scrollbar       { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #E4E4E7; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #D4D4D8; }
+
+/* Selección */
+::selection { background: #18181B15; color: #09090B; }
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInSimple {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
