@@ -16,8 +16,9 @@ export default function Login() {
     setLoading(true);
     setError(null);
     try {
-      await verifyAdminToken(token);
-      sessionStorage.setItem('elisa_admin_token', token);
+      const trimmedToken = token.trim();
+      await verifyAdminToken(trimmedToken);
+      sessionStorage.setItem('elisa_admin_token', trimmedToken);
       navigate('/admin', { replace: true });
     } catch {
       setError('Token inválido');
