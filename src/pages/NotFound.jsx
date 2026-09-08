@@ -4,7 +4,7 @@ export default function NotFound() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-dvh flex flex-col items-center justify-center text-center px-6 bg-bg">
+    <main className="min-h-dvh flex flex-col items-center justify-center text-center px-6 bg-bg">
       <p className="font-mono text-[88px] font-bold text-surface2 leading-none mb-6 select-none tracking-[-0.03em]">
         404
       </p>
@@ -19,6 +19,6 @@ export default function NotFound() {
       >
         ← Volver al inicio
       </button>
-    </div>
+    </main>
   );
 }

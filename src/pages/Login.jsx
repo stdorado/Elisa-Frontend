@@ -28,7 +28,7 @@ export default function Login() {
   };
 
   return (
-    <div
+    <main
       style={{
         minHeight: '100dvh',
         display: 'flex',
@@ -62,7 +62,7 @@ export default function Login() {
           >
             ELISA
           </p>
-          <p style={{ fontSize: 13, color: '#A1A1AA' }}>Panel de administración</p>
+          <p style={{ fontSize: 13, color: '#6B7280' }}>Panel de administración</p>
         </div>
 
         {/* Separador */}
@@ -124,7 +124,7 @@ export default function Login() {
               width: '100%',
               height: 40,
               background: loading || !token.trim() ? '#F4F4F5' : '#18181B',
-              color: loading || !token.trim() ? '#A1A1AA' : '#FFFFFF',
+              color: loading || !token.trim() ? '#6B7280' : '#FFFFFF',
               border: 'none',
               borderRadius: 8,
               fontSize: 14,
@@ -147,10 +147,10 @@ export default function Login() {
         {/* Footer */}
         <div style={{ height: 1, background: '#E4E4E7', margin: '24px 0 16px' }} />
 
-        <p style={{ textAlign: 'center', fontSize: 12, color: '#A1A1AA' }}>
+        <p style={{ textAlign: 'center', fontSize: 12, color: '#6B7280' }}>
           Acceso restringido · Proyecto ELISA
         </p>
       </div>
-    </div>
+    </main>
   );
 }

@@ -44,7 +44,7 @@ export default function Landing() {
           style={{
             fontFamily: 'Geist Mono, monospace',
             fontSize: 12,
-            color: '#A1A1AA',
+            color: '#6B7280',
             letterSpacing: '0.08em',
           }}
         >
@@ -57,7 +57,7 @@ export default function Landing() {
   const hora = new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
 
   return (
-    <div
+    <main
       style={{
         minHeight: '100dvh',
         background: '#FFFFFF',
@@ -90,7 +90,7 @@ export default function Landing() {
             style={{
               fontFamily: 'Geist Mono, monospace',
               fontSize: 11,
-              color: '#A1A1AA',
+              color: '#6B7280',
               letterSpacing: '0.16em',
               textTransform: 'uppercase',
             }}
@@ -193,7 +193,7 @@ export default function Landing() {
                 style={{
                   fontFamily: 'Geist Mono, monospace',
                   fontSize: 12,
-                  color: zona === 'desconocida' ? '#A1A1AA' : '#16A34A',
+                  color: zona === 'desconocida' ? '#6B7280' : '#16A34A',
                   fontWeight: 500,
                 }}
               >
@@ -209,7 +209,7 @@ export default function Landing() {
             style={{
               fontFamily: 'Geist Mono, monospace',
               fontSize: 11,
-              color: '#A1A1AA',
+              color: '#6B7280',
               textTransform: 'uppercase',
               letterSpacing: '0.16em',
               marginBottom: 16,
@@ -232,7 +232,7 @@ export default function Landing() {
             style={{
               fontFamily: 'Geist Mono, monospace',
               fontSize: 11,
-              color: '#A1A1AA',
+              color: '#6B7280',
               textTransform: 'uppercase',
               letterSpacing: '0.16em',
               marginBottom: 16,
@@ -264,7 +264,7 @@ export default function Landing() {
                     style={{
                       fontFamily: 'Geist Mono, monospace',
                       fontSize: 10,
-                      color: '#A1A1AA',
+                      color: '#6B7280',
                       marginBottom: 3,
                       letterSpacing: '0.1em',
                     }}
@@ -285,7 +285,7 @@ export default function Landing() {
             style={{
               fontFamily: 'Geist Mono, monospace',
               fontSize: 11,
-              color: '#A1A1AA',
+              color: '#6B7280',
               textTransform: 'uppercase',
               letterSpacing: '0.16em',
               marginBottom: 14,
@@ -330,7 +330,7 @@ export default function Landing() {
             style={{
               fontFamily: 'Geist Mono, monospace',
               fontSize: 11,
-              color: '#A1A1AA',
+              color: '#6B7280',
               textTransform: 'uppercase',
               letterSpacing: '0.16em',
               marginBottom: 16,
@@ -353,7 +353,7 @@ export default function Landing() {
             style={{
               fontFamily: 'Geist Mono, monospace',
               fontSize: 11,
-              color: '#A1A1AA',
+              color: '#6B7280',
               textTransform: 'uppercase',
               letterSpacing: '0.16em',
               marginBottom: 16,
@@ -381,7 +381,7 @@ export default function Landing() {
             style={{
               fontFamily: 'Geist Mono, monospace',
               fontSize: 11,
-              color: '#A1A1AA',
+              color: '#6B7280',
               textTransform: 'uppercase',
               letterSpacing: '0.16em',
               marginBottom: 16,
@@ -425,13 +425,13 @@ export default function Landing() {
 
           <div style={{ height: 1, background: '#E4E4E7', marginBottom: 16 }} />
 
-          <p style={{ fontSize: 12, color: '#A1A1AA', lineHeight: 1.8 }}>
+          <p style={{ fontSize: 12, color: '#6B7280', lineHeight: 1.8 }}>
             No recopilamos ningún dato personal tuyo.
             <br />
             Proyecto ELISA · Lezama, 2026 · Santino Tomás Dorado
           </p>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

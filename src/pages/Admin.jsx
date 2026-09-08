@@ -28,7 +28,7 @@ const TEMAS = {
     borderdim: '#F4F4F5',
     text: '#09090B',
     text2: '#52525B',
-    muted: '#A1A1AA',
+    muted: '#6B7280',
     dimmed: '#D4D4D8',
     sidebar: '#FAFAFA',
     topbar: 'rgba(255,255,255,0.9)',
@@ -56,7 +56,7 @@ const TEMAS = {
     border: '#27272A',
     borderdim: '#1E1E21',
     text: '#FAFAFA',
-    text2: '#A1A1AA',
+    text2: '#6B7280',
     muted: '#52525B',
     dimmed: '#3F3F46',
     sidebar: '#111113',
@@ -592,7 +592,7 @@ export default function Admin() {
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto" style={{ background: t.bg }}>
+        <main className="flex-1 overflow-y-auto" style={{ background: t.bg }}>
           <div
             style={{
               position: 'sticky',
@@ -887,7 +887,7 @@ export default function Admin() {
               </>
             )}
           </div>
-        </div>
+        </main>
       </div>
     </ThemeContext.Provider>
   );
