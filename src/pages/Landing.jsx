@@ -193,7 +193,7 @@ export default function Landing() {
                 style={{
                   fontFamily: 'Geist Mono, monospace',
                   fontSize: 12,
-                  color: zona === 'desconocida' ? '#6B7280' : '#15803D',
+                  color: zona === 'desconocida' ? '#52525B' : '#15803D',
                   fontWeight: 500,
                 }}
               >
