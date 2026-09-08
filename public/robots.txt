@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /admin
+Disallow: /login
+Allow: /
+
+Sitemap: https://elisa-lezama.vercel.app/sitemap.xml

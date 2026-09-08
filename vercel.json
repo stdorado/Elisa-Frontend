@@ -5,6 +5,14 @@
       "destination": "https://elisa-backend-82w840tsu-stdorados-projects.vercel.app/api/$1"
     },
     {
+      "source": "/robots.txt",
+      "destination": "/robots.txt"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/sitemap.xml"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
