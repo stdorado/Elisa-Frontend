@@ -126,7 +126,7 @@ export default function Landing() {
                 width: 6,
                 height: 6,
                 borderRadius: '50%',
-                background: '#EF4444',
+                background: '#B91C1C',
                 animation: 'pulse 1.5s ease-in-out infinite',
               }}
             />
@@ -134,7 +134,7 @@ export default function Landing() {
               style={{
                 fontFamily: 'Geist Mono, monospace',
                 fontSize: 11,
-                color: '#EF4444',
+                color: '#B91C1C',
                 letterSpacing: '0.14em',
                 textTransform: 'uppercase',
               }}
@@ -193,7 +193,7 @@ export default function Landing() {
                 style={{
                   fontFamily: 'Geist Mono, monospace',
                   fontSize: 12,
-                  color: zona === 'desconocida' ? '#6B7280' : '#16A34A',
+                  color: zona === 'desconocida' ? '#6B7280' : '#15803D',
                   fontWeight: 500,
                 }}
               >
@@ -412,7 +412,7 @@ export default function Landing() {
         </div>
 
         {error && (
-          <p style={{ fontSize: 13, color: '#EF4444', textAlign: 'center' }}>
+          <p style={{ fontSize: 14, color: '#DC2626', textAlign: 'center' }}>
             No se pudo contactar al servidor, pero tu escaneo quedó registrado localmente.
           </p>
         )}
