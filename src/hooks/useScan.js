@@ -11,7 +11,8 @@ export function useScan(zona) {
     setLoading(true);
     setError(null);
     try {
-      const data = await postScan(zona);
+      const token = new URLSearchParams(window.location.search).get('t');
+      const data = await postScan(zona, token);
       setScanCount(data?.count ?? data?.scanCount ?? data?.total ?? null);
     } catch (err) {
       setError(err);
