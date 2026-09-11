@@ -2,56 +2,41 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { labelZona, validarZona } from '../utils/zonas.js';
 import { useScan } from '../hooks/useScan.js';
+import ScanLoader from '../components/ScanLoader.jsx';
+
+const LOADER_DURATION_MS = 3000;
+const LOADER_FADE_MS = 400;
 
 export default function Landing() {
   const [params] = useSearchParams();
   const zona = validarZona(params.get('zona'));
   const label = labelZona(zona);
-  const { loading, error, scanCount } = useScan(zona);
+  const { error, scanCount } = useScan(zona);
+  const [showLoader, setShowLoader] = useState(true);
+  const [loaderFadingOut, setLoaderFadingOut] = useState(false);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (!loading) {
+    const fadeTimer = setTimeout(() => setLoaderFadingOut(true), LOADER_DURATION_MS);
+    const removeTimer = setTimeout(
+      () => setShowLoader(false),
+      LOADER_DURATION_MS + LOADER_FADE_MS
+    );
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(removeTimer);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!showLoader) {
       const id = requestAnimationFrame(() => setVisible(true));
       return () => cancelAnimationFrame(id);
     }
-  }, [loading]);
+  }, [showLoader]);
 
-  if (loading) {
-    return (
-      <div
-        style={{
-          minHeight: '100dvh',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: '#FFFFFF',
-          gap: 20,
-        }}
-      >
-        <div
-          style={{
-            width: 32,
-            height: 32,
-            border: '2px solid #E4E4E7',
-            borderTopColor: '#18181B',
-            borderRadius: '50%',
-            animation: 'spin 0.8s linear infinite',
-          }}
-        />
-        <p
-          style={{
-            fontFamily: 'Geist Mono, monospace',
-            fontSize: 12,
-            color: '#6B7280',
-            letterSpacing: '0.08em',
-          }}
-        >
-          ELISA · procesando
-        </p>
-      </div>
-    );
+  if (showLoader) {
+    return <ScanLoader fadingOut={loaderFadingOut} />;
   }
 
   const hora = new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });

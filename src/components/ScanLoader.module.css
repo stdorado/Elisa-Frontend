@@ -1,0 +1,147 @@
+.wrapper {
+  min-height: 100dvh;
+  background: #0a0a0f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  opacity: 1;
+  transition: opacity 400ms ease;
+}
+
+.fadingOut {
+  opacity: 0;
+}
+
+.typewriter {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: #52525b;
+  letter-spacing: 0.12em;
+  min-height: 14px;
+  white-space: pre;
+}
+
+.qrStage {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qrBox {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  overflow: hidden;
+}
+
+.qrGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 14px);
+  grid-template-rows: repeat(7, 14px);
+  gap: 2px;
+}
+
+.cell {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  background: #1a1a2e;
+  animation: cellFlicker 1.6s ease-in-out infinite;
+}
+
+@keyframes cellFlicker {
+  0%,
+  100% {
+    background: #1a1a2e;
+  }
+  45%,
+  55% {
+    background: #ffffff;
+  }
+}
+
+.scanLine {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.6);
+  animation: scanSweep 1.2s linear infinite;
+}
+
+@keyframes scanSweep {
+  0% {
+    top: 0%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+.particlesRing {
+  position: absolute;
+  inset: 0;
+}
+
+.particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 190px;
+  height: 190px;
+  margin-top: -95px;
+  margin-left: -95px;
+  animation: orbit 3s linear infinite;
+}
+
+.particleDot {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  background: #ffffff;
+  border-radius: 50%;
+  opacity: 0.3;
+}
+
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.bottomText {
+  text-align: center;
+  animation: fadeInSimple 400ms ease;
+}
+
+.titleEs {
+  font-family: 'Inter', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #ededed;
+  margin-bottom: 6px;
+}
+
+.titleEn {
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  color: #52525b;
+  letter-spacing: 0.2em;
+}
+
+@keyframes fadeInSimple {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
