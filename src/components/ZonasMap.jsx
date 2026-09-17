@@ -9,21 +9,21 @@ const LEAFLET_JS = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet
 const LEAFLET_JS_SRI =
   'sha512-puJW3E/qXDqYp9IfhAI54BJEaWIfloJ7JWs7OeD5i6ruC9JZL1gERT1wjtwXFlh7CjE7ZJ+/vcRZRkIYIb6p4g==';
 
-const LEZAMA_CENTER = [-35.82, -57.93];
+const LEZAMA_CENTER = [-35.8203, -57.9301];
 
 const ZONAS_MAP = [
-  { id: 'centro', label: 'El Centro', coords: [-35.8195, -57.9295] },
-  { id: 'banco', label: 'Municipio / Banco', coords: [-35.818, -57.931] },
-  { id: 'tero', label: 'Barrio El Tero', coords: [-35.824, -57.926] },
-  { id: 'san-ceferino', label: 'Barrio San Ceferino', coords: [-35.816, -57.934] },
-  { id: 'boulevard', label: 'El Boulevard', coords: [-35.821, -57.928] },
+  { id: 'centro', label: 'El Centro', coords: [-35.8203, -57.9301] },
+  { id: 'banco', label: 'Municipio / Banco', coords: [-35.8196, -57.9318] },
+  { id: 'tero', label: 'Barrio El Tero', coords: [-35.8235, -57.9275] },
+  { id: 'san-ceferino', label: 'Barrio San Ceferino', coords: [-35.8168, -57.9342] },
+  { id: 'boulevard', label: 'El Boulevard', coords: [-35.8220, -57.9290] },
 ];
 
 const DEFAULT_COLOR = '#09090B';
 const ACTIVE_COLOR = '#EF4444';
 
 function buildIcon(L, color, active) {
-  const size = active ? 22 : 14;
+  const size = active ? 24 : 16;
   const half = size / 2;
   return L.divIcon({
     html: `<div class="${active ? 'elisaPinActive' : 'elisaPin'}" style="
@@ -31,7 +31,7 @@ function buildIcon(L, color, active) {
       background: ${color};
       border: 2px solid #FFFFFF;
       border-radius: 50%;
-      box-shadow: 0 0 0 2px ${color};
+      box-shadow: 0 0 0 2px ${color}, 0 1px 5px rgba(0, 0, 0, 0.5);
     "></div>`,
     className: '',
     iconSize: [size, size],

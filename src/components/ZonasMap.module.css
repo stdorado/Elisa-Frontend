@@ -10,10 +10,6 @@
   height: 100%;
 }
 
-.map :global(.leaflet-tile-pane) {
-  filter: grayscale(100%);
-}
-
 .status {
   position: absolute;
   inset: 0;
