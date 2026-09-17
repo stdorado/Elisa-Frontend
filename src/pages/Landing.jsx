@@ -3,10 +3,9 @@ import { useSearchParams } from 'react-router-dom';
 import { Moon, Sun } from 'lucide-react';
 import { labelZona, validarZona } from '../utils/zonas.js';
 import { useScan } from '../hooks/useScan.js';
-import ScanLoader from '../components/ScanLoader.jsx';
+import PlanetLoader from '../components/PlanetLoader.jsx';
+import ZonasMap from '../components/ZonasMap.jsx';
 
-const LOADER_DURATION_MS = 3000;
-const LOADER_FADE_MS = 400;
 const THEME_STORAGE_KEY = 'elisa_theme';
 
 const THEMES = {
@@ -62,7 +61,6 @@ export default function Landing() {
   const label = labelZona(zona);
   const { error, scanCount } = useScan(zona);
   const [showLoader, setShowLoader] = useState(true);
-  const [loaderFadingOut, setLoaderFadingOut] = useState(false);
   const [visible, setVisible] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
     try {
@@ -91,18 +89,6 @@ export default function Landing() {
   }, [t.bg]);
 
   useEffect(() => {
-    const fadeTimer = setTimeout(() => setLoaderFadingOut(true), LOADER_DURATION_MS);
-    const removeTimer = setTimeout(
-      () => setShowLoader(false),
-      LOADER_DURATION_MS + LOADER_FADE_MS
-    );
-    return () => {
-      clearTimeout(fadeTimer);
-      clearTimeout(removeTimer);
-    };
-  }, []);
-
-  useEffect(() => {
     if (!showLoader) {
       const id = requestAnimationFrame(() => setVisible(true));
       return () => cancelAnimationFrame(id);
@@ -110,7 +96,7 @@ export default function Landing() {
   }, [showLoader]);
 
   if (showLoader) {
-    return <ScanLoader fadingOut={loaderFadingOut} />;
+    return <PlanetLoader onComplete={() => setShowLoader(false)} />;
   }
 
   const hora = new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
@@ -417,6 +403,23 @@ export default function Landing() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* CARD: MAPA DE ZONAS */}
+        <div style={{ background: t.card, border: `1px solid ${t.border}`, borderRadius: 12, padding: '24px 28px' }}>
+          <p
+            style={{
+              fontFamily: 'Geist Mono, monospace',
+              fontSize: 11,
+              color: t.muted,
+              textTransform: 'uppercase',
+              letterSpacing: '0.16em',
+              marginBottom: 16,
+            }}
+          >
+            Las 5 zonas del experimento
+          </p>
+          <ZonasMap zona={zona} />
         </div>
 
         {/* CARD: QUÉ PASA CON LOS DATOS */}
