@@ -1,121 +1,81 @@
 .wrapper {
   position: fixed;
   inset: 0;
-  background: #000008;
-  overflow: hidden;
   z-index: 50;
+  background: #0a0a0f;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
 }
 
-.canvas {
-  position: absolute;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  display: block;
+.globeWrapper {
+  animation: globeRotate 8s linear infinite;
+  filter: drop-shadow(0 0 12px #4488ff40);
 }
 
-.overlay {
-  position: absolute;
-  bottom: 48px;
-  left: 0;
-  right: 0;
+@keyframes globeRotate {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.03);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+.continents {
+  animation: continentsSlide 8s linear infinite;
+}
+
+@keyframes continentsSlide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-104px);
+  }
+}
+
+.textBlock {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  pointer-events: none;
-  animation: overlayFadeOut 400ms ease forwards;
-  animation-delay: 2000ms;
 }
 
 .eyebrow {
   font-family: 'Geist Mono', 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  color: #ffffff40;
+  font-size: 10px;
+  color: #ffffff30;
   letter-spacing: 4px;
   text-transform: uppercase;
 }
 
 .location {
   font-family: 'Geist Mono', 'IBM Plex Mono', monospace;
-  font-size: 13px;
-  color: #ffffff80;
+  font-size: 12px;
+  color: #ffffff60;
   opacity: 0;
-  animation: fadeInSimple 500ms ease forwards;
+  animation: fadeIn 500ms ease forwards;
   animation-delay: 500ms;
 }
 
-@keyframes overlayFadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes fadeInSimple {
+@keyframes fadeIn {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
-  }
-}
-
-.flash {
-  position: absolute;
-  inset: 0;
-  background: #ffffff;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.flashVisible {
-  opacity: 1;
-  transition: opacity 80ms linear;
-}
-
-.flashFadeOut {
-  opacity: 0;
-  transition: opacity 420ms ease-out;
-}
-
-.fallback {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.fallbackDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #ffffff80;
-  animation: fallbackPulse 1.4s ease-in-out infinite;
-}
-
-@keyframes fallbackPulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.35;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .overlay {
-    animation: none;
-    opacity: 1;
-  }
   .location {
-    animation: none;
     opacity: 1;
   }
 }
