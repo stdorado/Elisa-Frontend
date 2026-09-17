@@ -1,23 +1,17 @@
 export const ZONAS_VALIDAS = [
   'centro',
   'banco',
-  'padel',
   'tero',
   'san-ceferino',
-  'polideportivo',
   'boulevard',
-  'clubes',
 ];
 
 const LABELS = {
-  centro: 'Centro',
-  banco: 'Banco',
-  padel: 'Padel',
-  tero: 'Tero',
-  'san-ceferino': 'San Ceferino',
-  polideportivo: 'Polideportivo',
-  boulevard: 'Boulevard',
-  clubes: 'Clubes',
+  centro: 'El Centro',
+  banco: 'Municipio / Banco',
+  tero: 'Barrio El Tero',
+  'san-ceferino': 'Barrio San Ceferino',
+  boulevard: 'El Boulevard',
   desconocida: 'Zona desconocida',
 };
 

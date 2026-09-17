@@ -85,23 +85,17 @@ const ThemeContext = createContext(TEMAS.claro);
 const ZONA_COLORS = {
   centro: '#2563EB',
   banco: '#16A34A',
-  padel: '#7C3AED',
   tero: '#D97706',
   'san-ceferino': '#DC2626',
-  polideportivo: '#0891B2',
-  boulevard: '#059669',
-  clubes: '#EA580C',
+  boulevard: '#7C3AED',
 };
 
 const ZONAS_LABELS = {
-  centro: 'Centro',
-  banco: 'Banco',
-  padel: 'Padel',
-  tero: 'Tero',
-  'san-ceferino': 'San Ceferino',
-  polideportivo: 'Polideportivo',
-  boulevard: 'Boulevard',
-  clubes: 'Clubes',
+  centro: 'El Centro',
+  banco: 'Municipio / Banco',
+  tero: 'Barrio El Tero',
+  'san-ceferino': 'Barrio San Ceferino',
+  boulevard: 'El Boulevard',
 };
 
 const POR_PAGINA = 50;
@@ -507,7 +501,7 @@ export default function Admin() {
     { label: 'Hora pico', valor: horaPico },
     { label: '% Acceso móvil', valor: `${pctMobile}%` },
     { label: '% Acceso desktop', valor: `${pctDesktop}%` },
-    { label: 'Zonas con actividad', valor: `${zonasActivas} de 8` },
+    { label: 'Zonas con actividad', valor: `${zonasActivas} de 5` },
   ];
 
   const [hoverRefresh, hoverRefreshProps] = useHover();
@@ -906,12 +900,9 @@ function VistaResumen({
   const ZONA_COLORS = {
     centro: '#09090B',
     banco: '#374151',
-    padel: '#6366F1',
     tero: '#F59E0B',
     'san-ceferino': '#EF4444',
-    polideportivo: '#06B6D4',
     boulevard: '#10B981',
-    clubes: '#F97316',
   };
 
   return (
