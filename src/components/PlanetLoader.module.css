@@ -28,17 +28,24 @@
   }
 }
 
-.continents {
-  animation: continentsSlide 8s linear infinite;
+.land {
+  animation: landScroll 8s linear infinite;
 }
 
-@keyframes continentsSlide {
+@keyframes landScroll {
   0% {
     transform: translateX(0);
   }
   100% {
     transform: translateX(-104px);
   }
+}
+
+.audioUnlock {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: transparent;
 }
 
 .textBlock {
