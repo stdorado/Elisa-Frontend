@@ -293,6 +293,49 @@ export default function Landing() {
               </span>
             </div>
           </div>
+
+          <div
+            style={{
+              marginTop: 12,
+              padding: '10px 14px',
+              background: '#F4F4F5',
+              borderRadius: 8,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+            }}
+          >
+            <span
+              style={{
+                fontFamily: 'Geist Mono, monospace',
+                fontSize: 11,
+                color: '#52525B',
+                letterSpacing: '0.1em',
+              }}
+            >
+              REGISTRADO
+            </span>
+            <span
+              style={{
+                fontFamily: 'Geist Mono, monospace',
+                fontSize: 13,
+                fontWeight: 500,
+                color: '#09090B',
+              }}
+            >
+              {new Date().toLocaleDateString('es-AR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+              })}{' '}
+              ·{' '}
+              {new Date().toLocaleTimeString('es-AR', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+              })}
+            </span>
+          </div>
         </div>
 
         {/* CARD: QUÉ ES ESTO */}
