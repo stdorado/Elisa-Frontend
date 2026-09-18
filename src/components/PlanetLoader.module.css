@@ -12,19 +12,39 @@
 }
 
 .globeWrapper {
-  animation: globeRotate 8s linear infinite;
-  filter: drop-shadow(0 0 12px #4488ff40);
+  animation: globeRotate 10s linear infinite, globeFloat 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px #4488ff60) drop-shadow(0 0 40px #4488ff30);
 }
 
+/* globeRotate anima rotate/scale y globeFloat anima translate por separado
+   (en vez del shorthand transform) para que las dos animaciones convivan:
+   dos @keyframes que tocan la misma propiedad `transform` se pisan entre
+   sí — solo gana la última de la lista — así que cada una anima su propia
+   propiedad de transformación y el navegador las compone. */
 @keyframes globeRotate {
   0% {
-    transform: rotate(0deg) scale(1);
+    rotate: 0deg;
+    scale: 1;
   }
   50% {
-    transform: rotate(180deg) scale(1.03);
+    rotate: 180deg;
+    scale: 1.03;
   }
   100% {
-    transform: rotate(360deg) scale(1);
+    rotate: 360deg;
+    scale: 1;
+  }
+}
+
+@keyframes globeFloat {
+  0% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -8px;
+  }
+  100% {
+    translate: 0 0;
   }
 }
 

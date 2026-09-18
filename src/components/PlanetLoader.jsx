@@ -4,12 +4,12 @@ import styles from './PlanetLoader.module.css';
 const LOADER_DURATION_MS = 3000;
 
 const CONTINENTS = [
-  { cx: 45, cy: 72, rx: 12, ry: 18, fill: '#4a9e3f', opacity: 0.9 },
-  { cx: 38, cy: 48, rx: 14, ry: 13, fill: '#5ab04e', opacity: 0.85 },
-  { cx: 72, cy: 52, rx: 10, ry: 8, fill: '#5ab04e', opacity: 0.9 },
-  { cx: 75, cy: 70, rx: 9, ry: 14, fill: '#4a9e3f', opacity: 0.85 },
-  { cx: 95, cy: 45, rx: 16, ry: 12, fill: '#5ab04e', opacity: 0.8 },
-  { cx: 98, cy: 72, rx: 9, ry: 7, fill: '#4a9e3f', opacity: 0.8 },
+  { cx: 45, cy: 72, rx: 13, ry: 19, fill: '#27ae60', opacity: 0.95 }, // América del Sur
+  { cx: 37, cy: 47, rx: 15, ry: 14, fill: '#2ecc71', opacity: 0.9 }, // América del Norte
+  { cx: 70, cy: 48, rx: 9, ry: 7, fill: '#2ecc71', opacity: 0.95 }, // Europa
+  { cx: 74, cy: 67, rx: 10, ry: 15, fill: '#27ae60', opacity: 0.9 }, // África
+  { cx: 94, cy: 43, rx: 18, ry: 13, fill: '#2ecc71', opacity: 0.85 }, // Asia
+  { cx: 99, cy: 73, rx: 10, ry: 8, fill: '#27ae60', opacity: 0.85 }, // Australia
 ];
 
 function ContinentShapes() {
@@ -130,18 +130,20 @@ export default function PlanetLoader({ onComplete }) {
       )}
 
       <div className={styles.globeWrapper}>
-        <svg width="120" height="120" viewBox="0 0 120 120">
+        <svg width="160" height="160" viewBox="0 0 120 120">
           <defs>
             <clipPath id="globe-clip">
               <circle cx="60" cy="60" r="52" />
             </clipPath>
-            <radialGradient id="ocean" cx="40%" cy="35%">
-              <stop offset="0%" stopColor="#5bb8f5" />
-              <stop offset="100%" stopColor="#1a6fa8" />
+            <radialGradient id="ocean" cx="38%" cy="32%">
+              <stop offset="0%" stopColor="#7ec8e3" />
+              <stop offset="50%" stopColor="#2980b9" />
+              <stop offset="100%" stopColor="#1a5276" />
             </radialGradient>
-            <radialGradient id="glow" cx="50%" cy="50%">
-              <stop offset="70%" stopColor="transparent" />
-              <stop offset="100%" stopColor="#4488ff" stopOpacity="0.3" />
+            <radialGradient id="atmos" cx="50%" cy="50%">
+              <stop offset="75%" stopColor="transparent" />
+              <stop offset="90%" stopColor="#4488ff" stopOpacity="0.2" />
+              <stop offset="100%" stopColor="#88bbff" stopOpacity="0.4" />
             </radialGradient>
           </defs>
 
@@ -162,11 +164,13 @@ export default function PlanetLoader({ onComplete }) {
             </g>
           </g>
 
-          {/* Brillo superior izquierdo */}
-          <ellipse cx="42" cy="38" rx="18" ry="12" fill="white" opacity="0.12" />
+          {/* Brillo principal */}
+          <ellipse cx="44" cy="36" rx="22" ry="14" fill="white" opacity="0.18" />
+          {/* Brillo secundario pequeño */}
+          <ellipse cx="72" cy="30" rx="8" ry="5" fill="white" opacity="0.1" />
 
-          {/* Atmósfera glow */}
-          <circle cx="60" cy="60" r="52" fill="url(#glow)" />
+          {/* Atmósfera */}
+          <circle cx="60" cy="60" r="54" fill="url(#atmos)" />
 
           {/* Borde del planeta */}
           <circle cx="60" cy="60" r="52" fill="none" stroke="#4488ff" strokeWidth="0.5" opacity="0.4" />

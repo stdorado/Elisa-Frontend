@@ -187,6 +187,9 @@ export default function Landing() {
             borderTop: `3px solid ${t.accent}`,
             borderRadius: 12,
             padding: '28px 28px 24px',
+            opacity: 0,
+            animation: 'fadeUp 0.5s ease forwards',
+            animationDelay: '0ms',
           }}
         >
           <div
@@ -223,9 +226,18 @@ export default function Landing() {
             </span>
           </div>
 
-          <h1 style={{ fontSize: 26, fontWeight: 700, color: t.text, lineHeight: 1.3, marginBottom: 12 }}>
+          <h1
+            style={{
+              fontSize: 'clamp(22px, 5vw, 30px)',
+              fontWeight: 700,
+              color: t.text,
+              lineHeight: 1.25,
+              letterSpacing: '-0.02em',
+              marginBottom: 16,
+            }}
+          >
             Acabás de demostrar cómo funciona{' '}
-            <span style={{ color: t.accent }}>la ingeniería social.</span>
+            <span style={{ color: '#DC2626', fontWeight: 700 }}>la ingeniería social.</span>
           </h1>
 
           <p style={{ fontSize: 15, color: t.text2, lineHeight: 1.7, marginBottom: 24 }}>
@@ -284,7 +296,17 @@ export default function Landing() {
         </div>
 
         {/* CARD: QUÉ ES ESTO */}
-        <div style={{ background: t.card, border: `1px solid ${t.border}`, borderRadius: 12, padding: '24px 28px' }}>
+        <div
+          style={{
+            background: t.card,
+            border: `1px solid ${t.border}`,
+            borderRadius: 12,
+            padding: '24px 28px',
+            opacity: 0,
+            animation: 'fadeUp 0.5s ease forwards',
+            animationDelay: '80ms',
+          }}
+        >
           <p
             style={{
               fontFamily: 'Geist Mono, monospace',
@@ -307,7 +329,17 @@ export default function Landing() {
         </div>
 
         {/* CARD: QUÉ SE REGISTRÓ */}
-        <div style={{ background: t.card, border: `1px solid ${t.border}`, borderRadius: 12, padding: '24px 28px' }}>
+        <div
+          style={{
+            background: t.card,
+            border: `1px solid ${t.border}`,
+            borderRadius: 12,
+            padding: '24px 28px',
+            opacity: 0,
+            animation: 'fadeUp 0.5s ease forwards',
+            animationDelay: '160ms',
+          }}
+        >
           <p
             style={{
               fontFamily: 'Geist Mono, monospace',
@@ -405,7 +437,17 @@ export default function Landing() {
         </div>
 
         {/* CARD: QUÉ PASA CON LOS DATOS */}
-        <div style={{ background: t.card, border: `1px solid ${t.border}`, borderRadius: 12, padding: '24px 28px' }}>
+        <div
+          style={{
+            background: t.card,
+            border: `1px solid ${t.border}`,
+            borderRadius: 12,
+            padding: '24px 28px',
+            opacity: 0,
+            animation: 'fadeUp 0.5s ease forwards',
+            animationDelay: '240ms',
+          }}
+        >
           <p
             style={{
               fontFamily: 'Geist Mono, monospace',
@@ -428,7 +470,17 @@ export default function Landing() {
         </div>
 
         {/* CARD: QUIÉN ESTÁ DETRÁS */}
-        <div style={{ background: t.card, border: `1px solid ${t.border}`, borderRadius: 12, padding: '24px 28px' }}>
+        <div
+          style={{
+            background: t.card,
+            border: `1px solid ${t.border}`,
+            borderRadius: 12,
+            padding: '24px 28px',
+            opacity: 0,
+            animation: 'fadeUp 0.5s ease forwards',
+            animationDelay: '320ms',
+          }}
+        >
           <p
             style={{
               fontFamily: 'Geist Mono, monospace',
@@ -450,7 +502,17 @@ export default function Landing() {
         </div>
 
         {/* CARD: QUÉ APRENDER */}
-        <div style={{ background: t.card, border: `1px solid ${t.border}`, borderRadius: 12, padding: '24px 28px' }}>
+        <div
+          style={{
+            background: t.card,
+            border: `1px solid ${t.border}`,
+            borderRadius: 12,
+            padding: '24px 28px',
+            opacity: 0,
+            animation: 'fadeUp 0.5s ease forwards',
+            animationDelay: '400ms',
+          }}
+        >
           <p
             style={{
               fontFamily: 'Geist Mono, monospace',
@@ -492,7 +554,15 @@ export default function Landing() {
         )}
 
         {/* FOOTER */}
-        <div style={{ textAlign: 'center', paddingTop: 8 }}>
+        <div
+          style={{
+            textAlign: 'center',
+            paddingTop: 8,
+            opacity: 0,
+            animation: 'fadeUp 0.5s ease forwards',
+            animationDelay: '480ms',
+          }}
+        >
           <p style={{ fontFamily: 'Geist Mono, monospace', fontSize: 14, color: t.text, fontWeight: 500, marginBottom: 16 }}>
             Gracias por participar, aunque no lo hayas elegido.
           </p>
