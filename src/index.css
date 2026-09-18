@@ -108,24 +108,3 @@ body { min-height: 100dvh; }
     transition-duration: 0.01ms !important;
   }
 }
-
-/* Marcadores del mapa de zonas (ZonasMap.jsx) — Leaflet inyecta HTML crudo
-   vía divIcon, así que estas clases no pueden vivir en un CSS Module. */
-.elisaPin,
-.elisaPinActive {
-  position: relative;
-}
-
-.elisaPinActive::after {
-  content: '';
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 2px solid #EF4444;
-  animation: markerPulseRing 1.6s ease-out infinite;
-}
-
-@keyframes markerPulseRing {
-  0%   { transform: scale(0.6); opacity: 0.9; }
-  100% { transform: scale(1.9); opacity: 0; }
-}

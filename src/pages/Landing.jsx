@@ -4,7 +4,6 @@ import { Moon, Sun } from 'lucide-react';
 import { labelZona, validarZona } from '../utils/zonas.js';
 import { useScan } from '../hooks/useScan.js';
 import PlanetLoader from '../components/PlanetLoader.jsx';
-import ZonasMap from '../components/ZonasMap.jsx';
 
 const THEME_STORAGE_KEY = 'elisa_theme';
 
@@ -403,23 +402,6 @@ export default function Landing() {
               </div>
             ))}
           </div>
-        </div>
-
-        {/* CARD: MAPA DE ZONAS */}
-        <div style={{ background: t.card, border: `1px solid ${t.border}`, borderRadius: 12, padding: '24px 28px' }}>
-          <p
-            style={{
-              fontFamily: 'Geist Mono, monospace',
-              fontSize: 11,
-              color: t.muted,
-              textTransform: 'uppercase',
-              letterSpacing: '0.16em',
-              marginBottom: 16,
-            }}
-          >
-            Las 5 zonas del experimento
-          </p>
-          <ZonasMap zona={zona} />
         </div>
 
         {/* CARD: QUÉ PASA CON LOS DATOS */}
