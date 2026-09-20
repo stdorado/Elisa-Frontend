@@ -93,7 +93,7 @@ const ZONAS_LABELS = {
 const POR_PAGINA = 50;
 const SEMANA_MS = 7 * 24 * 60 * 60 * 1000;
 
-const MONO = 'IBM Plex Mono';
+const MONO = 'Geist Mono, monospace';
 
 function IconResumen() {
   return (
@@ -158,7 +158,7 @@ function CustomTooltip({ active, payload, label }) {
         style={{
           fontSize: 11,
           color: t.muted,
-          fontFamily: 'Geist Mono, monospace',
+          fontFamily: MONO,
           marginBottom: 4,
           margin: '0 0 4px',
           letterSpacing: '0.05em',
@@ -171,7 +171,7 @@ function CustomTooltip({ active, payload, label }) {
           key={i}
           style={{
             fontSize: 15,
-            fontFamily: 'Geist Mono, monospace',
+            fontFamily: MONO,
             fontWeight: 700,
             color: p.fill || p.stroke || t.text,
             margin: 0,
@@ -852,12 +852,12 @@ export default function Admin() {
                             <CartesianGrid strokeDasharray="4 4" stroke={t.gridStroke} vertical={false} />
                             <XAxis
                               dataKey="zona"
-                              tick={{ fill: t.muted, fontSize: 11, fontFamily: 'Geist Mono, monospace' }}
+                              tick={{ fill: t.muted, fontSize: 11, fontFamily: MONO }}
                               axisLine={false}
                               tickLine={false}
                             />
                             <YAxis
-                              tick={{ fill: t.muted, fontSize: 11, fontFamily: 'Geist Mono, monospace' }}
+                              tick={{ fill: t.muted, fontSize: 11, fontFamily: MONO }}
                               axisLine={false}
                               tickLine={false}
                               allowDecimals={false}
@@ -926,7 +926,7 @@ function VistaResumen({
           >
             <p
               style={{
-                fontFamily: 'Geist Mono, monospace',
+                fontFamily: MONO,
                 fontSize: 11,
                 color: t.muted,
                 textTransform: 'uppercase',
@@ -939,7 +939,7 @@ function VistaResumen({
             </p>
             <p
               style={{
-                fontFamily: 'Geist Mono, monospace',
+                fontFamily: MONO,
                 fontSize: 28,
                 fontWeight: 600,
                 color: t.text,
@@ -972,7 +972,7 @@ function VistaResumen({
                 <CartesianGrid strokeDasharray="4 4" stroke={t.gridStroke} horizontal={false} />
                 <XAxis
                   type="number"
-                  tick={{ fill: t.muted, fontSize: 11, fontFamily: 'Geist Mono, monospace' }}
+                  tick={{ fill: t.muted, fontSize: 11, fontFamily: MONO }}
                   axisLine={false}
                   tickLine={false}
                   allowDecimals={false}
@@ -982,7 +982,7 @@ function VistaResumen({
                   dataKey="zona"
                   tickFormatter={(z) => ZONAS_LABELS[z] ?? z}
                   width={120}
-                  tick={{ fill: t.text2, fontSize: 12, fontFamily: 'Geist Mono, monospace' }}
+                  tick={{ fill: t.text2, fontSize: 12, fontFamily: MONO }}
                   axisLine={false}
                   tickLine={false}
                 />
@@ -1007,13 +1007,13 @@ function VistaResumen({
                 <CartesianGrid stroke={t.gridStroke} strokeDasharray="4 4" vertical={false} />
                 <XAxis
                   dataKey="franja"
-                  tick={{ fill: t.muted, fontSize: 11, fontFamily: 'Geist Mono, monospace' }}
+                  tick={{ fill: t.muted, fontSize: 11, fontFamily: MONO }}
                   axisLine={false}
                   tickLine={false}
                 />
                 <YAxis
                   allowDecimals={false}
-                  tick={{ fill: t.muted, fontSize: 11, fontFamily: 'Geist Mono, monospace' }}
+                  tick={{ fill: t.muted, fontSize: 11, fontFamily: MONO }}
                   axisLine={false}
                   tickLine={false}
                   width={25}
