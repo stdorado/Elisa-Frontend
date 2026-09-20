@@ -90,6 +90,8 @@ const ZONA_COLORS = {
   boulevard: '#7C3AED',
 };
 
+const DEVICE_COLORS = ['#2563EB', '#7C3AED', '#D1D5DB'];
+
 const ZONAS_LABELS = {
   centro: 'El Centro',
   banco: 'Municipio / Banco',
@@ -157,15 +159,37 @@ function CustomTooltip({ active, payload, label }) {
       style={{
         background: t.tooltipBg,
         border: `1px solid ${t.border}`,
-        borderRadius: 6,
-        padding: '8px 12px',
-        boxShadow: t.tooltipShadow,
+        borderRadius: 10,
+        padding: '10px 16px',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
       }}
     >
-      <p style={{ fontSize: 11, color: t.muted, fontFamily: MONO, marginBottom: 3, margin: 0 }}>{label}</p>
-      <p style={{ fontSize: 13, color: t.text, fontFamily: MONO, fontWeight: 600, margin: 0 }}>
-        {payload[0].value} escaneos
+      <p
+        style={{
+          fontSize: 11,
+          color: t.muted,
+          fontFamily: 'Geist Mono, monospace',
+          marginBottom: 4,
+          margin: '0 0 4px',
+          letterSpacing: '0.05em',
+        }}
+      >
+        {label}
       </p>
+      {payload.map((p, i) => (
+        <p
+          key={i}
+          style={{
+            fontSize: 15,
+            fontFamily: 'Geist Mono, monospace',
+            fontWeight: 700,
+            color: p.fill || p.stroke || t.text,
+            margin: 0,
+          }}
+        >
+          {p.value} escaneos
+        </p>
+      ))}
     </div>
   );
 }
@@ -418,12 +442,6 @@ export default function Admin() {
     return Math.round(((stats?.por_device?.mobile ?? 0) / total) * 100);
   }, [stats]);
 
-  const pctDesktop = useMemo(() => {
-    const total = stats?.total ?? 0;
-    if (!total) return 0;
-    return Math.round(((stats?.por_device?.desktop ?? 0) / total) * 100);
-  }, [stats]);
-
   const zonasActivas = useMemo(
     () => Object.values(stats?.por_zona ?? {}).filter((v) => v > 0).length,
     [stats]
@@ -432,6 +450,7 @@ export default function Admin() {
   const dataZonasConPromedio = useMemo(() => {
     const dataZonas = ZONAS_VALIDAS.map((zona) => ({
       zona: ZONAS_LABELS[zona] ?? zona,
+      zonaId: zona,
       cantidad: stats?.por_zona?.[zona] ?? 0,
     }));
     const promedio = dataZonas.length
@@ -478,7 +497,6 @@ export default function Admin() {
         : '—',
       sub: stats?.zona_lider ? `${stats.zona_lider.cantidad} escaneos` : 'sin datos aún',
     },
-    { label: 'Acceso móvil', valor: `${pctMobile}%`, sub: `${pctDesktop}% desktop` },
   ];
 
   const METRICAS = [
@@ -492,8 +510,6 @@ export default function Admin() {
         ? ZONAS_LABELS[stats.zona_lider.nombre] ?? stats.zona_lider.nombre
         : '—',
     },
-    { label: '% Acceso móvil', valor: `${pctMobile}%` },
-    { label: '% Acceso desktop', valor: `${pctDesktop}%` },
     { label: 'Zonas con actividad', valor: `${zonasActivas} de 5` },
   ];
 
@@ -830,9 +846,7 @@ export default function Admin() {
                               <span style={{ color: t.text, fontWeight: 500 }}>
                                 {stats.zona_lider?.cantidad}
                               </span>{' '}
-                              escaneos registrados. El{' '}
-                              <span style={{ color: t.text, fontWeight: 500 }}>{pctMobile}%</span> del
-                              acceso fue desde dispositivos móviles.
+                              escaneos registrados.
                             </p>
                           ) : (
                             <p style={{ fontSize: 13, color: t.muted, fontStyle: 'italic', margin: 0 }}>
@@ -851,17 +865,31 @@ export default function Admin() {
                       <div style={{ padding: '16px 8px 8px' }}>
                         <ResponsiveContainer width="100%" height={280}>
                           <ComposedChart data={dataZonasConPromedio} margin={{ left: 8, right: 16 }}>
-                            <CartesianGrid strokeDasharray="3 3" stroke={t.gridStroke} vertical={false} />
-                            <XAxis dataKey="zona" tick={{ fill: t.muted, fontSize: 11 }} axisLine={false} tickLine={false} />
-                            <YAxis tick={{ fill: t.muted, fontSize: 11 }} axisLine={false} tickLine={false} allowDecimals={false} />
+                            <CartesianGrid strokeDasharray="4 4" stroke={t.gridStroke} vertical={false} />
+                            <XAxis
+                              dataKey="zona"
+                              tick={{ fill: t.muted, fontSize: 11, fontFamily: 'Geist Mono, monospace' }}
+                              axisLine={false}
+                              tickLine={false}
+                            />
+                            <YAxis
+                              tick={{ fill: t.muted, fontSize: 11, fontFamily: 'Geist Mono, monospace' }}
+                              axisLine={false}
+                              tickLine={false}
+                              allowDecimals={false}
+                            />
                             <Tooltip content={<CustomTooltip />} cursor={{ fill: `${t.barFill}0d` }} />
-                            <Bar dataKey="cantidad" fill={t.barFill} fillOpacity={0.7} radius={[3, 3, 0, 0]} />
+                            <Bar dataKey="cantidad" radius={[3, 3, 0, 0]}>
+                              {dataZonasConPromedio.map((entry) => (
+                                <Cell key={entry.zonaId} fill={ZONA_COLORS[entry.zonaId]} fillOpacity={0.85} />
+                              ))}
+                            </Bar>
                             <Line
                               type="monotone"
                               dataKey="promedio"
-                              stroke="#6366F1"
-                              strokeWidth={1.5}
-                              strokeDasharray="4 4"
+                              stroke="#F59E0B"
+                              strokeWidth={2}
+                              strokeDasharray="5 5"
                               dot={false}
                             />
                           </ComposedChart>
@@ -888,14 +916,6 @@ function VistaResumen({
   sinDatosZonas,
 }) {
   const t = useContext(ThemeContext);
-
-  const ZONA_COLORS = {
-    centro: '#09090B',
-    banco: '#374151',
-    tero: '#F59E0B',
-    'san-ceferino': '#EF4444',
-    boulevard: '#10B981',
-  };
 
   return (
     <>
@@ -963,19 +983,29 @@ function VistaResumen({
                 data={dataZonasResumen}
                 margin={{ left: 20, right: 20, top: 0, bottom: 0 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke={t.gridStroke} horizontal={false} />
-                <XAxis type="number" tick={{ fill: t.muted, fontSize: 11 }} axisLine={false} tickLine={false} allowDecimals={false} />
+                <CartesianGrid strokeDasharray="4 4" stroke={t.gridStroke} horizontal={false} />
+                <XAxis
+                  type="number"
+                  tick={{ fill: t.muted, fontSize: 11, fontFamily: 'Geist Mono, monospace' }}
+                  axisLine={false}
+                  tickLine={false}
+                  allowDecimals={false}
+                />
                 <YAxis
                   type="category"
                   dataKey="zona"
                   tickFormatter={(z) => ZONAS_LABELS[z] ?? z}
                   width={120}
-                  tick={{ fill: t.text2, fontSize: 12 }}
+                  tick={{ fill: t.text2, fontSize: 12, fontFamily: 'Geist Mono, monospace' }}
                   axisLine={false}
                   tickLine={false}
                 />
                 <Tooltip content={<CustomTooltip />} cursor={{ fill: `${t.barFill}0d` }} />
-                <Bar dataKey="cantidad" fill={t.barFill} fillOpacity={0.8} radius={[0, 4, 4, 0]} maxBarSize={20} />
+                <Bar dataKey="cantidad" radius={[0, 6, 6, 0]} maxBarSize={28}>
+                  {dataZonasResumen.map((entry) => (
+                    <Cell key={entry.zona} fill={ZONA_COLORS[entry.zona]} fillOpacity={0.85} />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -989,35 +1019,35 @@ function VistaResumen({
             <ResponsiveContainer width="100%" height={180}>
               <AreaChart data={dataHorasResumen}>
                 <defs>
-                  <linearGradient id="arealight" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={t.areaStop} stopOpacity={0.06} />
-                    <stop offset="95%" stopColor={t.areaStop} stopOpacity={0} />
+                  <linearGradient id="grad24" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#2563EB" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#2563EB" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid stroke={t.gridStroke} strokeDasharray="3 3" />
+                <CartesianGrid stroke={t.gridStroke} strokeDasharray="4 4" vertical={false} />
                 <XAxis
                   dataKey="hora"
                   interval={5}
-                  tick={{ fill: t.muted, fontSize: 11 }}
+                  tick={{ fill: t.muted, fontSize: 11, fontFamily: 'Geist Mono, monospace' }}
                   axisLine={false}
                   tickLine={false}
                 />
                 <YAxis
                   allowDecimals={false}
-                  tick={{ fill: t.muted, fontSize: 11 }}
+                  tick={{ fill: t.muted, fontSize: 11, fontFamily: 'Geist Mono, monospace' }}
                   axisLine={false}
                   tickLine={false}
                   width={25}
                 />
-                <Tooltip content={<CustomTooltip />} cursor={{ stroke: t.areaStroke, strokeOpacity: 0.15 }} />
+                <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#2563EB', strokeOpacity: 0.15 }} />
                 <Area
                   type="monotone"
                   dataKey="cantidad"
-                  stroke={t.areaStroke}
-                  strokeWidth={1.5}
-                  fill="url(#arealight)"
+                  stroke="#2563EB"
+                  strokeWidth={2}
+                  fill="url(#grad24)"
                   dot={false}
-                  activeDot={{ r: 3, fill: t.areaStroke }}
+                  activeDot={{ r: 5, fill: '#2563EB' }}
                 />
               </AreaChart>
             </ResponsiveContainer>
@@ -1083,7 +1113,7 @@ function VistaResumen({
                   strokeWidth={0}
                 >
                   {dataDispositivos.map((entry, i) => (
-                    <Cell key={entry.name} fill={t.donutColors[i]} />
+                    <Cell key={entry.name} fill={DEVICE_COLORS[i]} strokeWidth={0} />
                   ))}
                 </Pie>
               </PieChart>
@@ -1112,7 +1142,7 @@ function VistaResumen({
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: t.donutColors[i] }} />
+                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: DEVICE_COLORS[i] }} />
                   <span style={{ fontSize: 13, color: t.text2 }}>{d.name}</span>
                 </div>
                 <span style={{ fontFamily: MONO, fontSize: 13, fontWeight: 600, color: t.text }}>{d.value}</span>
