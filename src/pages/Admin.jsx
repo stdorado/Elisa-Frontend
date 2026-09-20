@@ -424,11 +424,6 @@ export default function Admin() {
     return Math.round(((stats?.por_device?.desktop ?? 0) / total) * 100);
   }, [stats]);
 
-  const horaPico = useMemo(
-    () => Object.entries(stats?.por_hora ?? {}).sort((a, b) => b[1] - a[1])[0]?.[0] ?? '—',
-    [stats]
-  );
-
   const zonasActivas = useMemo(
     () => Object.values(stats?.por_zona ?? {}).filter((v) => v > 0).length,
     [stats]
@@ -484,7 +479,6 @@ export default function Admin() {
       sub: stats?.zona_lider ? `${stats.zona_lider.cantidad} escaneos` : 'sin datos aún',
     },
     { label: 'Acceso móvil', valor: `${pctMobile}%`, sub: `${pctDesktop}% desktop` },
-    { label: 'Hora pico', valor: horaPico, sub: 'mayor actividad' },
   ];
 
   const METRICAS = [
@@ -498,7 +492,6 @@ export default function Admin() {
         ? ZONAS_LABELS[stats.zona_lider.nombre] ?? stats.zona_lider.nombre
         : '—',
     },
-    { label: 'Hora pico', valor: horaPico },
     { label: '% Acceso móvil', valor: `${pctMobile}%` },
     { label: '% Acceso desktop', valor: `${pctDesktop}%` },
     { label: 'Zonas con actividad', valor: `${zonasActivas} de 5` },
@@ -839,8 +832,7 @@ export default function Admin() {
                               </span>{' '}
                               escaneos registrados. El{' '}
                               <span style={{ color: t.text, fontWeight: 500 }}>{pctMobile}%</span> del
-                              acceso fue desde dispositivos móviles. La hora de mayor actividad fue las{' '}
-                              <span style={{ color: t.text, fontWeight: 500 }}>{horaPico}</span>.
+                              acceso fue desde dispositivos móviles.
                             </p>
                           ) : (
                             <p style={{ fontSize: 13, color: t.muted, fontStyle: 'italic', margin: 0 }}>
