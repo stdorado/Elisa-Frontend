@@ -5,8 +5,6 @@ import {
   ComposedChart,
   BarChart,
   Bar,
-  AreaChart,
-  Area,
   PieChart,
   Pie,
   Cell,
@@ -43,11 +41,8 @@ const TEMAS = {
     rowHover: '#FAFAFA',
     gridStroke: '#F4F4F5',
     barFill: '#09090B',
-    areaStroke: '#09090B',
-    areaStop: '#09090B',
     tooltipBg: '#FFFFFF',
     tooltipShadow: '0 4px 12px #00000010',
-    donutColors: ['#09090B', '#6B7280', '#E4E4E7'],
   },
   oscuro: {
     bg: '#09090B',
@@ -72,11 +67,8 @@ const TEMAS = {
     rowHover: '#1C1C1F',
     gridStroke: '#27272A',
     barFill: '#FAFAFA',
-    areaStroke: '#FAFAFA',
-    areaStop: '#FAFAFA',
     tooltipBg: '#18181B',
     tooltipShadow: '0 4px 12px #00000040',
-    donutColors: ['#FAFAFA', '#52525B', '#27272A'],
   },
 };
 
@@ -89,8 +81,6 @@ const ZONA_COLORS = {
   'san-ceferino': '#DC2626',
   boulevard: '#7C3AED',
 };
-
-const DEVICE_COLORS = ['#2563EB', '#7C3AED', '#D1D5DB'];
 
 const ZONAS_LABELS = {
   centro: 'El Centro',
@@ -436,12 +426,6 @@ export default function Admin() {
     return (stats.total / dias).toFixed(1);
   }, [data, stats]);
 
-  const pctMobile = useMemo(() => {
-    const total = stats?.total ?? 0;
-    if (!total) return 0;
-    return Math.round(((stats?.por_device?.mobile ?? 0) / total) * 100);
-  }, [stats]);
-
   const zonasActivas = useMemo(
     () => Object.values(stats?.por_zona ?? {}).filter((v) => v > 0).length,
     [stats]
@@ -467,20 +451,22 @@ export default function Admin() {
     })).sort((a, b) => b.cantidad - a.cantidad);
   }, [stats]);
 
-  const dataHorasResumen = useMemo(() => {
-    return Object.entries(stats?.por_hora ?? {})
-      .map(([hora, cantidad]) => ({ hora, cantidad }))
-      .sort((a, b) => a.hora.localeCompare(b.hora));
+  const dataFranjasHorarias = useMemo(() => {
+    const franjas = [
+      { id: 'madrugada', label: 'Madrugada', desde: 0, hasta: 5 },
+      { id: 'manana', label: 'Mañana', desde: 6, hasta: 11 },
+      { id: 'tarde', label: 'Tarde', desde: 12, hasta: 17 },
+      { id: 'noche', label: 'Noche', desde: 18, hasta: 23 },
+    ];
+    const porHora = stats?.por_hora ?? {};
+    return franjas.map((f) => ({
+      franja: f.label,
+      cantidad: Object.entries(porHora).reduce((sum, [hora, cantidad]) => {
+        const h = parseInt(hora, 10);
+        return h >= f.desde && h <= f.hasta ? sum + cantidad : sum;
+      }, 0),
+    }));
   }, [stats]);
-
-  const dataDispositivos = useMemo(
-    () => [
-      { name: 'Móvil', value: stats?.por_device?.mobile ?? 0 },
-      { name: 'Desktop', value: stats?.por_device?.desktop ?? 0 },
-      { name: 'Otro', value: stats?.por_device?.unknown ?? 0 },
-    ],
-    [stats]
-  );
 
   const sinDatosZonas = dataZonasResumen.every((z) => z.cantidad === 0);
 
@@ -685,9 +671,7 @@ export default function Admin() {
                   <VistaResumen
                     kpis={KPIS}
                     dataZonasResumen={dataZonasResumen}
-                    dataHorasResumen={dataHorasResumen}
-                    dataDispositivos={dataDispositivos}
-                    pctMobile={pctMobile}
+                    dataFranjasHorarias={dataFranjasHorarias}
                     sinDatosZonas={sinDatosZonas}
                   />
                 )}
@@ -910,12 +894,14 @@ export default function Admin() {
 function VistaResumen({
   kpis,
   dataZonasResumen,
-  dataHorasResumen,
-  dataDispositivos,
-  pctMobile,
+  dataFranjasHorarias,
   sinDatosZonas,
 }) {
   const t = useContext(ThemeContext);
+
+  const totalZonas = dataZonasResumen.reduce((sum, z) => sum + z.cantidad, 0);
+  const liderZona = dataZonasResumen[0];
+  const liderPct = totalZonas && liderZona ? Math.round((liderZona.cantidad / totalZonas) * 100) : 0;
 
   return (
     <>
@@ -1014,20 +1000,13 @@ function VistaResumen({
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
         <Card>
-          <CardHeader>Actividad 24hs</CardHeader>
+          <CardHeader>Actividad por franja horaria</CardHeader>
           <div style={{ padding: '16px 8px 8px' }}>
             <ResponsiveContainer width="100%" height={180}>
-              <AreaChart data={dataHorasResumen}>
-                <defs>
-                  <linearGradient id="grad24" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#2563EB" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#2563EB" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
+              <BarChart data={dataFranjasHorarias} margin={{ left: 0, right: 8, top: 0, bottom: 0 }}>
                 <CartesianGrid stroke={t.gridStroke} strokeDasharray="4 4" vertical={false} />
                 <XAxis
-                  dataKey="hora"
-                  interval={5}
+                  dataKey="franja"
                   tick={{ fill: t.muted, fontSize: 11, fontFamily: 'Geist Mono, monospace' }}
                   axisLine={false}
                   tickLine={false}
@@ -1039,17 +1018,9 @@ function VistaResumen({
                   tickLine={false}
                   width={25}
                 />
-                <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#2563EB', strokeOpacity: 0.15 }} />
-                <Area
-                  type="monotone"
-                  dataKey="cantidad"
-                  stroke="#2563EB"
-                  strokeWidth={2}
-                  fill="url(#grad24)"
-                  dot={false}
-                  activeDot={{ r: 5, fill: '#2563EB' }}
-                />
-              </AreaChart>
+                <Tooltip content={<CustomTooltip />} cursor={{ fill: '#2563EB0d' }} />
+                <Bar dataKey="cantidad" fill="#2563EB" fillOpacity={0.85} radius={[6, 6, 0, 0]} maxBarSize={48} />
+              </BarChart>
             </ResponsiveContainer>
           </div>
         </Card>
@@ -1061,96 +1032,80 @@ function VistaResumen({
               Sin escaneos registrados
             </div>
           ) : (
-            <div>
-              {dataZonasResumen.map((z, i) => (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '14px 20px' }}>
+              <div style={{ position: 'relative', width: 110, height: 110, flexShrink: 0 }}>
+                <ResponsiveContainer width={110} height={110}>
+                  <PieChart>
+                    <Pie
+                      data={dataZonasResumen}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={36}
+                      outerRadius={53}
+                      paddingAngle={2}
+                      dataKey="cantidad"
+                      strokeWidth={0}
+                    >
+                      {dataZonasResumen.map((entry) => (
+                        <Cell key={entry.zona} fill={ZONA_COLORS[entry.zona]} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
                 <div
-                  key={z.zona}
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '10px 20px',
-                    borderBottom: i < dataZonasResumen.length - 1 ? `1px solid ${t.borderdim}` : 'none',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%,-50%)',
+                    textAlign: 'center',
+                    pointerEvents: 'none',
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <span style={{ fontFamily: MONO, fontSize: 11, color: t.muted, width: 16 }}>{i + 1}</span>
-                    <div
-                      style={{
-                        width: 7,
-                        height: 7,
-                        borderRadius: '50%',
-                        background: ZONA_COLORS[z.zona],
-                        flexShrink: 0,
-                      }}
-                    />
-                    <span style={{ fontSize: 13, color: t.text }}>{ZONAS_LABELS[z.zona]}</span>
-                  </div>
-                  <span style={{ fontFamily: MONO, fontSize: 13, fontWeight: 600, color: t.text }}>
-                    {z.cantidad}
-                  </span>
+                  <p style={{ fontFamily: MONO, fontSize: 16, fontWeight: 700, color: t.text, lineHeight: 1, margin: 0 }}>
+                    {liderPct}%
+                  </p>
+                  <p style={{ fontSize: 9, color: t.muted, marginTop: 3, margin: '3px 0 0' }}>
+                    {liderZona ? ZONAS_LABELS[liderZona.zona] : '—'}
+                  </p>
                 </div>
-              ))}
+              </div>
+
+              <div style={{ flex: 1 }}>
+                {dataZonasResumen.map((z, i) => (
+                  <div
+                    key={z.zona}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '5px 0',
+                      borderBottom: i < dataZonasResumen.length - 1 ? `1px solid ${t.borderdim}` : 'none',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontFamily: MONO, fontSize: 10, color: t.muted, width: 14 }}>{i + 1}</span>
+                      <div
+                        style={{
+                          width: 7,
+                          height: 7,
+                          borderRadius: '50%',
+                          background: ZONA_COLORS[z.zona],
+                          flexShrink: 0,
+                        }}
+                      />
+                      <span style={{ fontSize: 12, color: t.text }}>{ZONAS_LABELS[z.zona]}</span>
+                    </div>
+                    <span style={{ fontFamily: MONO, fontSize: 12, fontWeight: 600, color: t.text }}>
+                      {z.cantidad}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </Card>
       </div>
-
-      <Card>
-        <CardHeader>Dispositivos</CardHeader>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 32, padding: 20 }}>
-          <div style={{ position: 'relative', width: 160, height: 160, flexShrink: 0 }}>
-            <ResponsiveContainer width={160} height={160}>
-              <PieChart>
-                <Pie
-                  data={dataDispositivos}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={52}
-                  outerRadius={72}
-                  paddingAngle={2}
-                  dataKey="value"
-                  strokeWidth={0}
-                >
-                  {dataDispositivos.map((entry, i) => (
-                    <Cell key={entry.name} fill={DEVICE_COLORS[i]} strokeWidth={0} />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
-            <div
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%,-50%)',
-                textAlign: 'center',
-                pointerEvents: 'none',
-              }}
-            >
-              <p style={{ fontFamily: MONO, fontSize: 20, fontWeight: 700, color: t.text, lineHeight: 1, margin: 0 }}>
-                {pctMobile}%
-              </p>
-              <p style={{ fontSize: 10, color: t.muted, marginTop: 3, margin: '3px 0 0' }}>móvil</p>
-            </div>
-          </div>
-
-          <div style={{ flex: 1 }}>
-            {dataDispositivos.map((d, i) => (
-              <div
-                key={d.name}
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: DEVICE_COLORS[i] }} />
-                  <span style={{ fontSize: 13, color: t.text2 }}>{d.name}</span>
-                </div>
-                <span style={{ fontFamily: MONO, fontSize: 13, fontWeight: 600, color: t.text }}>{d.value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Card>
     </>
   );
 }
